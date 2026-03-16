@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <data name="LanguageLabel" xml:space="preserve"><value>UI language:</value></data>
+  <data name="LanguageCzech" xml:space="preserve"><value>Czech</value></data>
+  <data name="LanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="LanguageRestartTitle" xml:space="preserve"><value>Language change</value></data>
+  <data name="LanguageRestartMessage" xml:space="preserve"><value>The app must restart to apply the language change. Restart now?</value></data>
+
+  <data name="NoExportFormatTitle" xml:space="preserve"><value>No format selected</value></data>
+  <data name="NoExportFormatMessage" xml:space="preserve"><value>Please select at least one export format in the Session tab.</value></data>
+  <data name="RecordingStatus" xml:space="preserve"><value>Recording...  Click in the target application.</value></data>
+  <data name="RecordingStoppedStatusFormat" xml:space="preserve"><value>Recording stopped. {0} steps.</value></data>
+  <data name="TrayRecordingBackground" xml:space="preserve"><value>Recording continues in background.\nDouble-click to show.</value></data>
+
+  <data name="DeleteStepConfirmTitle" xml:space="preserve"><value>Confirm</value></data>
+  <data name="DeleteStepConfirmMessageFormat" xml:space="preserve"><value>Delete step {0}?</value></data>
+
+  <data name="EmptySessionTitle" xml:space="preserve"><value>Empty session</value></data>
+  <data name="EmptySessionMessage" xml:space="preserve"><value>There are no steps to export.</value></data>
+  <data name="ExportStatus" xml:space="preserve"><value>Exporting...</value></data>
+  <data name="ExportDoneStatusFormat" xml:space="preserve"><value>Export completed - {0} file(s).</value></data>
+  <data name="ExportDoneTrayTitle" xml:space="preserve"><value>Export completed</value></data>
+  <data name="ExportDoneTrayMessageFormat" xml:space="preserve"><value>Saved {0} file(s) to {1}</value></data>
+  <data name="ExportFailedStatus" xml:space="preserve"><value>Export failed. Check settings.</value></data>
+  <data name="ExportErrorTitle" xml:space="preserve"><value>Export error</value></data>
+  <data name="ExportErrorMessage" xml:space="preserve"><value>Export was not successful. Check that required packages are installed.</value></data>
+
+  <data name="ExitConfirmTitle" xml:space="preserve"><value>Exit?</value></data>
+  <data name="ExitConfirmMessage" xml:space="preserve"><value>Recording is still running. Do you really want to exit?\n\nData will be lost.</value></data>
+
+  <data name="HotkeyDialogTitle" xml:space="preserve"><value>Set hotkey</value></data>
+  <data name="HotkeyDialogHeader" xml:space="preserve"><value>Press a new hotkey</value></data>
+  <data name="HotkeyDialogHint" xml:space="preserve"><value>Use combination: Ctrl / Shift / Alt + key</value></data>
+  <data name="HotkeyDialogPreview" xml:space="preserve"><value>Click here and press a hotkey...</value></data>
+  <data name="HotkeyDialogCancel" xml:space="preserve"><value>Cancel</value></data>
+  <data name="HotkeyDialogSave" xml:space="preserve"><value>Save</value></data>
+  <data name="HotkeyDialogErrorModifiers" xml:space="preserve"><value>The combination must include Ctrl, Shift, or Alt.</value></data>
+</root>

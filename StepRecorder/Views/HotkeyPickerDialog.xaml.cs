@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
+using StepRecorder.Helpers;
 
 namespace StepRecorder;
 
@@ -12,6 +13,13 @@ public partial class HotkeyPickerDialog : Window
     public HotkeyPickerDialog(HotkeyDefinition current)
     {
         InitializeComponent();
+
+        Title = L10n.T("HotkeyDialogTitle");
+        DialogHeaderText.Text = L10n.T("HotkeyDialogHeader");
+        DialogHintText.Text = L10n.T("HotkeyDialogHint");
+        HotkeyPreviewText.Text = L10n.T("HotkeyDialogPreview");
+        CancelBtn.Content = L10n.T("HotkeyDialogCancel");
+        OkBtn.Content = L10n.T("HotkeyDialogSave");
 
         // Show current hotkey
         HotkeyPreviewText.Text  = current.DisplayText;
@@ -47,7 +55,7 @@ public partial class HotkeyPickerDialog : Window
         // Require at least one modifier
         if (mods == 0)
         {
-            HotkeyErrorText.Text       = "Kombinace musí obsahovat Ctrl, Shift nebo Alt.";
+            HotkeyErrorText.Text       = L10n.T("HotkeyDialogErrorModifiers");
             HotkeyErrorText.Visibility = Visibility.Visible;
             OkBtn.IsEnabled            = false;
             return;

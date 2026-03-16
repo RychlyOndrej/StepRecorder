@@ -120,6 +120,8 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="8"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <Label Grid.Row="0" Grid.Column="0" Content="Název relace:"/>
@@ -138,6 +140,14 @@
                                 <Label Grid.Row="4" Grid.Column="0" Content="Autor:"/>
                                 <TextBox Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2"
                                          x:Name="AuthorBox"/>
+
+                                <Label Grid.Row="6" Grid.Column="0" x:Name="LanguageLabel" Content="Jazyk UI:"/>
+                                <ComboBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"
+                                          x:Name="LanguageCombo"
+                                          SelectionChanged="LanguageCombo_SelectionChanged">
+                                    <ComboBoxItem Tag="cs">Cestina</ComboBoxItem>
+                                    <ComboBoxItem Tag="en">English</ComboBoxItem>
+                                </ComboBox>
                             </Grid>
                         </GroupBox>
 

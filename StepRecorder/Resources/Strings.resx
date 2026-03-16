@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
+
+  <data name="LanguageLabel" xml:space="preserve"><value>Jazyk UI:</value></data>
+  <data name="LanguageCzech" xml:space="preserve"><value>Cestina</value></data>
+  <data name="LanguageEnglish" xml:space="preserve"><value>English</value></data>
+  <data name="LanguageRestartTitle" xml:space="preserve"><value>Zmena jazyka</value></data>
+  <data name="LanguageRestartMessage" xml:space="preserve"><value>Pro zmenu jazyka je potreba restart aplikace. Restartovat nyni?</value></data>
+
+  <data name="NoExportFormatTitle" xml:space="preserve"><value>Zadny format</value></data>
+  <data name="NoExportFormatMessage" xml:space="preserve"><value>Prosim vyberte alespon jeden vystupni format na zalozce Relace.</value></data>
+  <data name="RecordingStatus" xml:space="preserve"><value>Nahravam...  Klikejte v cilove aplikaci.</value></data>
+  <data name="RecordingStoppedStatusFormat" xml:space="preserve"><value>Nahravani zastaveno. {0} kroku.</value></data>
+  <data name="TrayRecordingBackground" xml:space="preserve"><value>Nahravani pokracuje na pozadi.\nDvakrat kliknete pro zobrazeni.</value></data>
+
+  <data name="DeleteStepConfirmTitle" xml:space="preserve"><value>Potvrzeni</value></data>
+  <data name="DeleteStepConfirmMessageFormat" xml:space="preserve"><value>Smazat krok {0}?</value></data>
+
+  <data name="EmptySessionTitle" xml:space="preserve"><value>Prazdna relace</value></data>
+  <data name="EmptySessionMessage" xml:space="preserve"><value>Nejsou zadne kroky k exportu.</value></data>
+  <data name="ExportStatus" xml:space="preserve"><value>Exportuji...</value></data>
+  <data name="ExportDoneStatusFormat" xml:space="preserve"><value>Export dokoncen - {0} soubor(y).</value></data>
+  <data name="ExportDoneTrayTitle" xml:space="preserve"><value>Export dokoncen</value></data>
+  <data name="ExportDoneTrayMessageFormat" xml:space="preserve"><value>Ulozeno {0} soubor(u) do {1}</value></data>
+  <data name="ExportFailedStatus" xml:space="preserve"><value>Export selhal. Zkontrolujte nastaveni.</value></data>
+  <data name="ExportErrorTitle" xml:space="preserve"><value>Chyba exportu</value></data>
+  <data name="ExportErrorMessage" xml:space="preserve"><value>Export nebyl uspesny. Zkontrolujte, zda jsou nainstalovane balicky.</value></data>
+
+  <data name="ExitConfirmTitle" xml:space="preserve"><value>Ukoncit?</value></data>
+  <data name="ExitConfirmMessage" xml:space="preserve"><value>Nahravani stale probiha. Opravdu chcete ukoncit?\n\nData budou ztracena.</value></data>
+
+  <data name="HotkeyDialogTitle" xml:space="preserve"><value>Nastavit klavesovou zkratku</value></data>
+  <data name="HotkeyDialogHeader" xml:space="preserve"><value>Stisknete novou klavesovou zkratku</value></data>
+  <data name="HotkeyDialogHint" xml:space="preserve"><value>Pouzijte kombinaci: Ctrl / Shift / Alt + klavesa</value></data>
+  <data name="HotkeyDialogPreview" xml:space="preserve"><value>Kliknete sem a stisknete zkratku...</value></data>
+  <data name="HotkeyDialogCancel" xml:space="preserve"><value>Zrusit</value></data>
+  <data name="HotkeyDialogSave" xml:space="preserve"><value>Ulozit</value></data>
+  <data name="HotkeyDialogErrorModifiers" xml:space="preserve"><value>Kombinace musi obsahovat Ctrl, Shift nebo Alt.</value></data>
+</root>

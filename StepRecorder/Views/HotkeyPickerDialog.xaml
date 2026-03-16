@@ -9,11 +9,13 @@
 
     <StackPanel Margin="28,24">
 
-        <TextBlock Text="Stiskněte novou klávesovou zkratku"
+        <TextBlock x:Name="DialogHeaderText"
+                   Text="Stiskněte novou klávesovou zkratku"
                    FontSize="14" FontWeight="SemiBold"
                    Margin="0,0,0,6"/>
 
-        <TextBlock Text="Použijte kombinaci: Ctrl / Shift / Alt + klávesa"
+        <TextBlock x:Name="DialogHintText"
+                   Text="Použijte kombinaci: Ctrl / Shift / Alt + klávesa"
                    FontSize="11" Foreground="#666" Margin="0,0,0,18"/>
 
         <!-- Preview box — focusable, catches KeyDown -->
@@ -33,7 +35,7 @@
                    Margin="0,0,0,14" Visibility="Collapsed"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="Zrušit" Width="80" Height="32" Margin="0,0,8,0"
+            <Button x:Name="CancelBtn" Content="Zrušit" Width="80" Height="32" Margin="0,0,8,0"
                     Style="{StaticResource SecondaryButton}"
                     IsCancel="True" Click="Cancel_Click"/>
             <Button x:Name="OkBtn" Content="Uložit" Width="80" Height="32"

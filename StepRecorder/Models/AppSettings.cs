@@ -66,6 +66,7 @@ public class AppSettings
     public bool IncludeTimestamps  { get; set; } = true;
     public bool IncludeWindowTitles { get; set; } = true;
     public string DocumentAuthor   { get; set; } = Environment.UserName;
+    public string UiLanguage       { get; set; } = "cs";
 
     // ---- Capture triggers ----
     public bool CaptureOnMouseClick { get; set; } = true;

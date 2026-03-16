@@ -165,8 +165,16 @@ public sealed class RecordingService : IDisposable
             }
             else if (source == CaptureSource.HotkeyCrop)
             {
-                (bmp, clickInImg) = _capture.CaptureCrop(
-                    screenX, screenY, _cfg.CropWidth, _cfg.CropHeight);
+                if (_cfg.CaptureWindowOnly && fgHwnd != IntPtr.Zero)
+                {
+                    (bmp, clickInImg) = _capture.CaptureCropInWindow(
+                        fgHwnd, screenX, screenY, _cfg.CropWidth, _cfg.CropHeight);
+                }
+                else
+                {
+                    (bmp, clickInImg) = _capture.CaptureCrop(
+                        screenX, screenY, _cfg.CropWidth, _cfg.CropHeight);
+                }
             }
             else // MouseClick
             {

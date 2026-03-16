@@ -15,21 +15,7 @@ public sealed class ScreenCaptureService
     public (Bitmap bitmap, Point clickInImage) CaptureWindow(
         IntPtr hwnd, int screenClickX, int screenClickY)
     {
-        // Try DWM-accurate bounds first
-        Rectangle bounds;
-        int hr = NativeMethods.DwmGetWindowAttribute(
-            hwnd,
-            NativeMethods.DWMWA_EXTENDED_FRAME_BOUNDS,
-            out NativeMethods.RECT dwmRect,
-            Marshal.SizeOf<NativeMethods.RECT>());
-
-        if (hr == 0)
-            bounds = dwmRect.ToRectangle();
-        else
-        {
-            NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT wr);
-            bounds = wr.ToRectangle();
-        }
+        Rectangle bounds = GetWindowBounds(hwnd);
 
         bounds = ConstrainToPrimaryBounds(bounds);
         if (bounds.Width <= 0 || bounds.Height <= 0)
@@ -42,6 +28,54 @@ public sealed class ScreenCaptureService
         var clickInImage = new Point(
             screenClickX - bounds.X,
             screenClickY - bounds.Y);
+
+        return (bmp, clickInImage);
+    }
+
+    /// <summary>
+    /// Capture a fixed-size crop around the cursor constrained to the given window.
+    /// If the window is smaller than crop size, remaining area is left empty.
+    /// </summary>
+    public (Bitmap bitmap, Point clickInImage) CaptureCropInWindow(
+        IntPtr hwnd, int screenClickX, int screenClickY, int width, int height)
+    {
+        if (hwnd == IntPtr.Zero)
+            return CaptureCrop(screenClickX, screenClickY, width, height);
+
+        Rectangle windowBounds = ConstrainToPrimaryBounds(GetWindowBounds(hwnd));
+        if (windowBounds.Width <= 0 || windowBounds.Height <= 0)
+            return CaptureCrop(screenClickX, screenClickY, width, height);
+
+        int x = screenClickX - width / 2;
+        int y = screenClickY - height / 2;
+
+        int minX = windowBounds.Left;
+        int maxX = windowBounds.Right - width;
+        int minY = windowBounds.Top;
+        int maxY = windowBounds.Bottom - height;
+
+        x = maxX >= minX ? Math.Clamp(x, minX, maxX) : minX;
+        y = maxY >= minY ? Math.Clamp(y, minY, maxY) : minY;
+
+        var requestedRect = new Rectangle(x, y, width, height);
+        var sourceRect = Rectangle.Intersect(requestedRect, windowBounds);
+
+        var bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+        using var g = Graphics.FromImage(bmp);
+        g.Clear(Color.Black);
+
+        if (sourceRect.Width > 0 && sourceRect.Height > 0)
+        {
+            var destinationPoint = new Point(
+                sourceRect.X - requestedRect.X,
+                sourceRect.Y - requestedRect.Y);
+
+            g.CopyFromScreen(sourceRect.Location, destinationPoint, sourceRect.Size);
+        }
+
+        var clickInImage = new Point(
+            Math.Clamp(screenClickX - requestedRect.X, 0, width - 1),
+            Math.Clamp(screenClickY - requestedRect.Y, 0, height - 1));
 
         return (bmp, clickInImage);
     }
@@ -128,6 +162,21 @@ public sealed class ScreenCaptureService
     {
         var all = AllScreensBounds();
         return Rectangle.Intersect(r, all);
+    }
+
+    private static Rectangle GetWindowBounds(IntPtr hwnd)
+    {
+        int hr = NativeMethods.DwmGetWindowAttribute(
+            hwnd,
+            NativeMethods.DWMWA_EXTENDED_FRAME_BOUNDS,
+            out NativeMethods.RECT dwmRect,
+            Marshal.SizeOf<NativeMethods.RECT>());
+
+        if (hr == 0)
+            return dwmRect.ToRectangle();
+
+        NativeMethods.GetWindowRect(hwnd, out NativeMethods.RECT wr);
+        return wr.ToRectangle();
     }
 
     private static Rectangle AllScreensBounds()

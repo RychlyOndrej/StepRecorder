@@ -111,12 +111,6 @@ Pouité balíèky:
 - `QuestPDF`
 - `DocumentFormat.OpenXml`
 
-## Spuštìní ve Visual Studiu
-
-1. Otevøete solution/repozitáø ve Visual Studiu.
-2. Nastavte projekt `StepRecorder` jako startup project.
-3. Spuste (`F5`).
-
 ## Rychlé pouití
 
 1. Na kartì **Relace** nastavte název, vıstupní sloku a formát exportu.

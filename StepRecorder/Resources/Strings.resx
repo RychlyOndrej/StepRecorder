@@ -40,4 +40,8 @@
   <data name="HotkeyDialogCancel" xml:space="preserve"><value>Zrusit</value></data>
   <data name="HotkeyDialogSave" xml:space="preserve"><value>Ulozit</value></data>
   <data name="HotkeyDialogErrorModifiers" xml:space="preserve"><value>Kombinace musi obsahovat Ctrl, Shift nebo Alt.</value></data>
+
+  <data name="ThemeLabel" xml:space="preserve"><value>Motiv:</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Svetly</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Tmavy</value></data>
 </root>

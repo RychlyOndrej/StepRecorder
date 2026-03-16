@@ -21,9 +21,10 @@ public partial class HotkeyPickerDialog : Window
         CancelBtn.Content = L10n.T("HotkeyDialogCancel");
         OkBtn.Content = L10n.T("HotkeyDialogSave");
 
+        ThemeManager.Apply(this, SettingsManager.Load().UiTheme);
+
         // Show current hotkey
         HotkeyPreviewText.Text  = current.DisplayText;
-        HotkeyPreviewText.Foreground = System.Windows.Media.Brushes.Black;
 
         // Capture keys in the border area
         HotkeyBorder.MouseLeftButtonDown += (_, _) => Focus();
@@ -64,7 +65,6 @@ public partial class HotkeyPickerDialog : Window
         _pending = new HotkeyDefinition { Modifiers = mods, VirtualKey = vk };
 
         HotkeyPreviewText.Text       = _pending.DisplayText;
-        HotkeyPreviewText.Foreground = System.Windows.Media.Brushes.Black;
         HotkeyErrorText.Visibility   = Visibility.Collapsed;
         OkBtn.IsEnabled              = true;
     }

@@ -40,4 +40,7 @@
   <data name="HotkeyDialogCancel" xml:space="preserve"><value>Cancel</value></data>
   <data name="HotkeyDialogSave" xml:space="preserve"><value>Save</value></data>
   <data name="HotkeyDialogErrorModifiers" xml:space="preserve"><value>The combination must include Ctrl, Shift, or Alt.</value></data>
+  <data name="ThemeLabel" xml:space="preserve"><value>Theme:</value></data>
+  <data name="ThemeLight" xml:space="preserve"><value>Light</value></data>
+  <data name="ThemeDark" xml:space="preserve"><value>Dark</value></data>
 </root>

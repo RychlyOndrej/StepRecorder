@@ -112,6 +112,7 @@ public partial class MainWindow : Window
     // ── Suppress save during load ─────────────────────────────────────────
     private bool _loading = true;
     private bool _changingLanguage;
+    private bool _changingTheme;
 
     private bool IsEnglishUi => string.Equals(_cfg.UiLanguage, "en", StringComparison.OrdinalIgnoreCase);
 
@@ -128,6 +129,7 @@ public partial class MainWindow : Window
 
         ApplyLocalizedText();
         LoadSettingsIntoUI();
+        ThemeManager.Apply(this, _cfg.UiTheme);
         RefreshTargetWindows();
         UpdateExportSummary();
 
@@ -140,6 +142,7 @@ public partial class MainWindow : Window
     private void ApplyLocalizedText()
     {
         LanguageLabel.Content = L10n.T("LanguageLabel");
+        ThemeLabel.Content = L10n.T("ThemeLabel");
 
         if (LanguageCombo.Items.Count >= 2)
         {
@@ -147,6 +150,14 @@ public partial class MainWindow : Window
                 cs.Content = L10n.T("LanguageCzech");
             if (LanguageCombo.Items[1] is ComboBoxItem en)
                 en.Content = L10n.T("LanguageEnglish");
+        }
+
+        if (ThemeCombo.Items.Count >= 2)
+        {
+            if (ThemeCombo.Items[0] is ComboBoxItem light)
+                light.Content = L10n.T("ThemeLight");
+            if (ThemeCombo.Items[1] is ComboBoxItem dark)
+                dark.Content = L10n.T("ThemeDark");
         }
 
         if (!IsEnglishUi)
@@ -260,6 +271,18 @@ public partial class MainWindow : Window
         }
         _changingLanguage = false;
 
+        _changingTheme = true;
+        foreach (var item in ThemeCombo.Items)
+        {
+            if (item is ComboBoxItem comboItem &&
+                string.Equals(comboItem.Tag?.ToString(), _cfg.UiTheme, StringComparison.OrdinalIgnoreCase))
+            {
+                ThemeCombo.SelectedItem = comboItem;
+                break;
+            }
+        }
+        _changingTheme = false;
+
         UpdateHotkeyHint();
         _loading = false;
     }
@@ -305,6 +328,9 @@ public partial class MainWindow : Window
 
         if (LanguageCombo.SelectedItem is ComboBoxItem selectedLanguage)
             _cfg.UiLanguage = selectedLanguage.Tag?.ToString() ?? "cs";
+
+        if (ThemeCombo.SelectedItem is ComboBoxItem selectedTheme)
+            _cfg.UiTheme = selectedTheme.Tag?.ToString() ?? "light";
 
         SettingsManager.Save(_cfg);
     }
@@ -818,6 +844,20 @@ public partial class MainWindow : Window
             CleanUp();
             System.Windows.Application.Current.Shutdown();
         }
+    }
+
+    private void ThemeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_loading || _changingTheme) return;
+        if (ThemeCombo.SelectedItem is not ComboBoxItem selected) return;
+
+        var newTheme = selected.Tag?.ToString() ?? "light";
+        if (string.Equals(_cfg.UiTheme, newTheme, StringComparison.OrdinalIgnoreCase))
+            return;
+
+        _cfg.UiTheme = newTheme;
+        SettingsManager.Save(_cfg);
+        ThemeManager.Apply(this, _cfg.UiTheme);
     }
 
     private void MinimizeToTray_Click(object sender, RoutedEventArgs e)

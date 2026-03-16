@@ -5,6 +5,20 @@
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
 
+        <SolidColorBrush x:Key="ThemeWindowBrush" Color="#F3F3F3"/>
+        <SolidColorBrush x:Key="ThemeSurfaceBrush" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="ThemeSurfaceAltBrush" Color="#F7F7F7"/>
+        <SolidColorBrush x:Key="ThemeBorderBrush" Color="#E0E0E0"/>
+        <SolidColorBrush x:Key="ThemeTextBrush" Color="#111111"/>
+        <SolidColorBrush x:Key="ThemeMutedTextBrush" Color="#666666"/>
+        <SolidColorBrush x:Key="ThemeTabSelectedBrush" Color="#EFF6FC"/>
+        <SolidColorBrush x:Key="ThemeTabHoverBrush" Color="#F5F5F5"/>
+        <SolidColorBrush x:Key="ThemeListSelectedBrush" Color="#EFF6FC"/>
+
+        <!-- System color keys used by default ComboBox popup template -->
+        <SolidColorBrush x:Key="{x:Static SystemColors.WindowBrushKey}" Color="#FFFFFF"/>
+        <SolidColorBrush x:Key="{x:Static SystemColors.WindowTextBrushKey}" Color="#111111"/>
+
         <!-- ============================================================
              GLOBAL STYLES
         ============================================================ -->
@@ -101,9 +115,10 @@
         <Style TargetType="TextBox">
             <Setter Property="Padding" Value="8,6"/>
             <Setter Property="FontSize" Value="12"/>
-            <Setter Property="BorderBrush" Value="#D0D0D0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="{DynamicResource ThemeSurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
             <Style.Triggers>
                 <Trigger Property="IsFocused" Value="True">
                     <Setter Property="BorderBrush" Value="#0078D4"/>
@@ -114,25 +129,47 @@
         <Style TargetType="PasswordBox">
             <Setter Property="Padding" Value="8,6"/>
             <Setter Property="FontSize" Value="12"/>
-            <Setter Property="BorderBrush" Value="#D0D0D0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Background" Value="{DynamicResource ThemeSurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
         </Style>
 
         <Style TargetType="ComboBox">
             <Setter Property="Padding" Value="8,5"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="{DynamicResource ThemeSurfaceBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderBrush}"/>
+        </Style>
+
+        <Style TargetType="ComboBoxItem">
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
+            <Setter Property="Background" Value="{DynamicResource ThemeSurfaceBrush}"/>
+            <Style.Triggers>
+                <Trigger Property="IsHighlighted" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource ThemeListSelectedBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource ThemeListSelectedBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
 
         <Style TargetType="CheckBox">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Margin" Value="0,3,0,3"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
         </Style>
 
         <Style TargetType="RadioButton">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Margin" Value="0,3,0,3"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
         </Style>
 
         <Style TargetType="GroupBox">
@@ -140,13 +177,15 @@
             <Setter Property="Padding" Value="12,10,12,12"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="BorderBrush" Value="#E0E0E0"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeBorderBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
         </Style>
 
         <Style TargetType="Label">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="Padding" Value="0"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource ThemeTextBrush}"/>
         </Style>
 
     </Application.Resources>

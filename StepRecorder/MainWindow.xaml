@@ -122,6 +122,8 @@
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="8"/>
                                     <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>
 
                                 <Label Grid.Row="0" Grid.Column="0" Content="Název relace:"/>
@@ -147,6 +149,14 @@
                                           SelectionChanged="LanguageCombo_SelectionChanged">
                                     <ComboBoxItem Tag="cs">Cestina</ComboBoxItem>
                                     <ComboBoxItem Tag="en">English</ComboBoxItem>
+                                </ComboBox>
+
+                                <Label Grid.Row="8" Grid.Column="0" x:Name="ThemeLabel" Content="Motiv:"/>
+                                <ComboBox Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"
+                                          x:Name="ThemeCombo"
+                                          SelectionChanged="ThemeCombo_SelectionChanged">
+                                    <ComboBoxItem Tag="light">Svetly</ComboBoxItem>
+                                    <ComboBoxItem Tag="dark">Tmavy</ComboBoxItem>
                                 </ComboBox>
                             </Grid>
                         </GroupBox>

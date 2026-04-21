@@ -535,33 +535,38 @@ public partial class MainWindow : Window
 
         EmptyState      .Visibility = Visibility.Collapsed;
         StepDetailContent.Visibility = Visibility.Visible;
-        OpenImageBtn.IsEnabled       = step.ImagePath != null && File.Exists(step.ImagePath);
-        OpenFolderBtn.IsEnabled      = step.ImagePath != null;
+
+        var hasImagePath = !string.IsNullOrWhiteSpace(step.ImagePath);
+        OpenImageBtn.IsEnabled = hasImagePath && File.Exists(step.ImagePath!);
+        OpenFolderBtn.IsEnabled = hasImagePath;
 
         // Screenshot
         StepScreenshot.Source = null;
-        if (step.ImagePath != null && File.Exists(step.ImagePath))
+        if (hasImagePath && File.Exists(step.ImagePath!))
         {
             try
             {
                 var bmi = new BitmapImage();
                 bmi.BeginInit();
-                bmi.UriSource     = new Uri(step.ImagePath);
+                bmi.UriSource     = new Uri(step.ImagePath!, UriKind.Absolute);
                 bmi.CacheOption   = BitmapCacheOption.OnLoad;
                 bmi.DecodePixelWidth = 860;
                 bmi.EndInit();
                 bmi.Freeze();
                 StepScreenshot.Source = bmi;
             }
-            catch { }
+            catch
+            {
+                StepScreenshot.Source = null;
+            }
         }
 
         // Metadata
-        MetaTime  .Text = step.TimeDisplay;
+        MetaTime  .Text = string.IsNullOrWhiteSpace(step.TimeDisplay) ? "—" : step.TimeDisplay;
         MetaWindow.Text = _cfg.IncludeWindowTitles && step.WindowTitle != null
-            ? $"{step.WindowTitle}  [{step.ProcessName}]"
+            ? $"{step.WindowTitle}  [{step.ProcessName ?? "?"}]"
             : "—";
-        MetaKeys  .Text = step.KeysPressed ?? "—";
+        MetaKeys  .Text = string.IsNullOrWhiteSpace(step.KeysPressed) ? "—" : step.KeysPressed;
         MetaSource.Text = step.Source switch
         {
             CaptureSource.MouseClick  => IsEnglishUi ? "Mouse click" : "Kliknutí myší",

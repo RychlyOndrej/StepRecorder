@@ -466,14 +466,14 @@
                                             </Border>
 
                                             <StackPanel Grid.Column="1" Margin="8,0,0,0">
-                                                <TextBlock Text="{Binding DisplayName}"
+                                                <TextBlock Text="{Binding DisplayName, Mode=OneWay}"
                                                            FontSize="12" FontWeight="SemiBold"
                                                            TextTrimming="CharacterEllipsis"
                                                            Foreground="#111"/>
                                                 <TextBlock FontSize="10" Foreground="#888">
-                                                    <Run Text="{Binding TimeDisplay}"/>
+                                                    <Run Text="{Binding TimeDisplay, Mode=OneWay}"/>
                                                     <Run Text=" "/>
-                                                    <Run Text="{Binding SourceIcon}"/>
+                                                    <Run Text="{Binding SourceIcon, Mode=OneWay}"/>
                                                 </TextBlock>
                                             </StackPanel>
                                         </Grid>
@@ -573,27 +573,31 @@
                                                        Content="Čas:" FontWeight="SemiBold"/>
                                                 <TextBlock Grid.Row="0" Grid.Column="1"
                                                            x:Name="MetaTime"
-                                                           VerticalAlignment="Center" FontSize="12"/>
+                                                           VerticalAlignment="Center" FontSize="12"
+                                                           Text="—"/>
 
                                                 <Label Grid.Row="2" Grid.Column="0"
                                                        Content="Aplikace:" FontWeight="SemiBold"/>
                                                 <TextBlock Grid.Row="2" Grid.Column="1"
                                                            x:Name="MetaWindow"
                                                            VerticalAlignment="Center" FontSize="12"
-                                                           TextWrapping="Wrap"/>
+                                                           TextWrapping="Wrap"
+                                                           Text="—"/>
 
                                                 <Label Grid.Row="4" Grid.Column="0"
                                                        Content="Klávesy:" FontWeight="SemiBold"/>
                                                 <TextBlock Grid.Row="4" Grid.Column="1"
                                                            x:Name="MetaKeys"
                                                            VerticalAlignment="Center" FontSize="12"
-                                                           FontFamily="Consolas"/>
+                                                           FontFamily="Consolas"
+                                                           Text="—"/>
 
                                                 <Label Grid.Row="6" Grid.Column="0"
                                                        Content="Zdroj:" FontWeight="SemiBold"/>
                                                 <TextBlock Grid.Row="6" Grid.Column="1"
                                                            x:Name="MetaSource"
-                                                           VerticalAlignment="Center" FontSize="12"/>
+                                                           VerticalAlignment="Center" FontSize="12"
+                                                           Text="—"/>
                                             </Grid>
                                         </StackPanel>
                                     </Border>

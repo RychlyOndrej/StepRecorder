@@ -1,4 +1,5 @@
 using System.IO;
+using System.Diagnostics;
 using StepRecorder.Models;
 
 namespace StepRecorder.Services;
@@ -22,6 +23,7 @@ public sealed class RecordingService : IDisposable
     private int               _lastMouseClickX;
     private int               _lastMouseClickY;
     private readonly long     _doubleClickWindowTicks;
+    private readonly object   _sessionLock = new();
 
     private const int DoubleClickPixelTolerance = 4;
 
@@ -87,12 +89,20 @@ public sealed class RecordingService : IDisposable
     {
         if (!_running || !_cfg.CaptureOnMouseClick) return;
 
+        var foreground = NativeMethods.GetForegroundWindow();
+        if (foreground != IntPtr.Zero)
+        {
+            NativeMethods.GetWindowThreadProcessId(foreground, out uint foregroundPid);
+            if (foregroundPid == (uint)Process.GetCurrentProcess().Id)
+                return;
+        }
+
         if (ShouldSkipAsDoubleClick(x, y))
             return;
 
         // If a target window is locked, only fire when it is foreground
         if (_targetHwnd != IntPtr.Zero &&
-            NativeMethods.GetForegroundWindow() != _targetHwnd)
+            foreground != _targetHwnd)
             return;
 
         ScheduleCapture(x, y, CaptureSource.MouseClick);
@@ -185,7 +195,14 @@ public sealed class RecordingService : IDisposable
             }
 
             // 3. Annotate (in-place, no extra allocation)
-            int nextNum = _session.StepCount + 1;
+            int nextNum;
+            lock (_sessionLock)
+            {
+                if (_session == null)
+                    return;
+
+                nextNum = _session.StepCount + 1;
+            }
 
             if (_cfg.HighlightCursor && clickInImg.X >= 0)
                 _annotate.AnnotateClick(bmp, clickInImg.X, clickInImg.Y,
@@ -206,6 +223,7 @@ public sealed class RecordingService : IDisposable
             // 5. Build lightweight step object
             var step = new RecordingStep
             {
+                StepNumber     = nextNum,
                 ImagePath      = imagePath,
                 WindowTitle    = _cfg.RecordWindowName ? winInfo?.Title       : null,
                 ProcessName    = _cfg.RecordWindowName ? winInfo?.ProcessName : null,
@@ -218,7 +236,14 @@ public sealed class RecordingService : IDisposable
                 KeysPressed    = string.IsNullOrWhiteSpace(keys) ? null : keys
             };
 
-            _session.AddStep(step);
+            lock (_sessionLock)
+            {
+                if (_session == null)
+                    return;
+
+                _session.AddStep(step);
+            }
+
             StepAdded?.Invoke(step);
         }
         catch (Exception ex)

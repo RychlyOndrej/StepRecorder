@@ -15,7 +15,7 @@ public enum ExportFormatFlags
     Word = 4
 }
 
-public enum ImageSaveQuality { PNG, JPEG85, JPEG70 }
+public enum ImageSaveQuality { PNG, JPEG85, JPEG70, BMP, GIF, TIFF }
 public enum DocumentLayout   { NumberedSteps, DetailedSteps, ScreenshotsOnly }
 
 // ── HotkeyDefinition ──────────────────────────────────────────────────────────

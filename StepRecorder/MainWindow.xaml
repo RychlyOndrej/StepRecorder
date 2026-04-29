@@ -202,6 +202,9 @@
                                     <ComboBoxItem Content="PNG  (bezztrátový, větší soubor)" Tag="PNG"/>
                                     <ComboBoxItem Content="JPEG 85 %  (výchozí, vhodná kvalita)" Tag="JPEG85"/>
                                     <ComboBoxItem Content="JPEG 70 %  (nejmenší soubory)" Tag="JPEG70"/>
+                                    <ComboBoxItem Content="BMP  (bez komprese, obrovský soubor)" Tag="BMP"/>
+                                    <ComboBoxItem Content="GIF  (omezené barvy, základní komprese)" Tag="GIF"/>
+                                    <ComboBoxItem Content="TIFF (profesionální archivní formát)" Tag="TIFF"/>
                                 </ComboBox>
                             </Grid>
                         </GroupBox>
@@ -396,6 +399,13 @@
                                     Margin="10,0,0,0"
                                     IsEnabled="False"
                                     Click="StopRecording_Click"/>
+                            <Button x:Name="PauseResumeBtn"
+                                    Content="⏸  Přerušit"
+                                    Style="{StaticResource SecondaryButton}"
+                                    Width="130" Height="38"
+                                    Margin="10,0,0,0"
+                                    IsEnabled="False"
+                                    Click="PauseResumeRecording_Click"/>
                             <Button x:Name="MinimizeToTrayBtn"
                                     Content="⬇  Minimalizovat do tray"
                                     Style="{StaticResource SecondaryButton}"
@@ -540,9 +550,11 @@
                                     <Border BorderBrush="#E0E0E0" BorderThickness="1"
                                             CornerRadius="4" Background="White">
                                         <Image x:Name="StepScreenshot"
+                                               Margin="4"
                                                MaxHeight="360"
                                                Stretch="Uniform"
-                                               Margin="4"/>
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"/>
                                     </Border>
 
                                     <!-- Metadata -->

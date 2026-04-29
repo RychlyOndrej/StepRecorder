@@ -138,10 +138,24 @@ public sealed class ExportService
                                        // Screenshot
                                        if (step.ImagePath != null && File.Exists(step.ImagePath))
                                        {
-                                           card.Item()
-                                               .Padding(8)
-                                               .Image(step.ImagePath)
-                                               .FitWidth();
+                                           var ext = Path.GetExtension(step.ImagePath).ToLowerInvariant();
+                                           if (ext == ".tiff" || ext == ".tif")
+                                           {
+                                               using var bmp = System.Drawing.Image.FromFile(step.ImagePath);
+                                               using var ms = new MemoryStream();
+                                               bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+                                               card.Item()
+                                                   .Padding(8)
+                                                   .Image(ms.ToArray())
+                                                   .FitWidth();
+                                           }
+                                           else
+                                           {
+                                               card.Item()
+                                                   .Padding(8)
+                                                   .Image(step.ImagePath)
+                                                   .FitWidth();
+                                           }
                                        }
 
                                        // Metadata footer
@@ -232,10 +246,16 @@ public sealed class ExportService
 
                 var bytes   = await File.ReadAllBytesAsync(step.ImagePath);
                 var b64     = Convert.ToBase64String(bytes);
-                var mime    = step.ImagePath.EndsWith(".jpg", StringComparison.OrdinalIgnoreCase) ||
-                              step.ImagePath.EndsWith(".jpeg", StringComparison.OrdinalIgnoreCase)
-                            ? "image/jpeg"
-                            : "image/png";
+                var ext = Path.GetExtension(step.ImagePath).ToLowerInvariant();
+                var mime = ext switch
+                {
+                    ".jpg" or ".jpeg" => "image/jpeg",
+                    ".png" => "image/png",
+                    ".gif" => "image/gif",
+                    ".bmp" => "image/bmp",
+                    ".tiff" or ".tif" => "image/tiff",
+                    _ => "image/png"
+                };
                 var cid     = $"img{step.StepNumber}@sr";
 
                 sb.AppendLine($"--{boundary}");
@@ -334,9 +354,16 @@ public sealed class ExportService
 
     private static void AddImageParagraph(MainDocumentPart mainPart, Body body, string imagePath)
     {
-        var imagePartType = imagePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase)
-            ? ImagePartType.Png
-            : ImagePartType.Jpeg;
+        var ext = Path.GetExtension(imagePath).ToLowerInvariant();
+        var imagePartType = ext switch
+        {
+            ".png" => ImagePartType.Png,
+            ".jpg" or ".jpeg" => ImagePartType.Jpeg,
+            ".gif" => ImagePartType.Gif,
+            ".bmp" => ImagePartType.Bmp,
+            ".tiff" or ".tif" => ImagePartType.Tiff,
+            _ => ImagePartType.Png
+        };
 
         var imagePart = mainPart.AddImagePart(imagePartType);
         using (var stream = File.OpenRead(imagePath))

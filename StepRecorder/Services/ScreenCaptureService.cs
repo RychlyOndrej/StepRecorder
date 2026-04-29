@@ -147,6 +147,24 @@ public sealed class ScreenCaptureService
                 bitmap.Save(path, codec, ep);
                 break;
             }
+            case ImageSaveQuality.BMP:
+            {
+                path = Path.Combine(folder, baseFileName + ".bmp");
+                bitmap.Save(path, ImageFormat.Bmp);
+                break;
+            }
+            case ImageSaveQuality.GIF:
+            {
+                path = Path.Combine(folder, baseFileName + ".gif");
+                bitmap.Save(path, ImageFormat.Gif);
+                break;
+            }
+            case ImageSaveQuality.TIFF:
+            {
+                path = Path.Combine(folder, baseFileName + ".tiff");
+                bitmap.Save(path, ImageFormat.Tiff);
+                break;
+            }
             default:
                 path = Path.Combine(folder, baseFileName + ".png");
                 bitmap.Save(path, ImageFormat.Png);

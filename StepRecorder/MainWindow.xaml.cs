@@ -4,8 +4,8 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using StepRecorder.Models;
 using StepRecorder.Services;
@@ -51,6 +51,9 @@ public partial class MainWindow : Window
             ["PNG  (bezztrátový, větší soubor)"] = "PNG  (lossless, larger file)",
             ["JPEG 85 %  (výchozí, vhodná kvalita)"] = "JPEG 85%  (default, good quality)",
             ["JPEG 70 %  (nejmenší soubory)"] = "JPEG 70%  (smallest files)",
+            ["BMP  (bez komprese, obrovský soubor)"] = "BMP  (uncompressed, huge file)",
+            ["GIF  (omezené barvy, základní komprese)"] = "GIF  (limited colors, basic compression)",
+            ["TIFF (profesionální archivní formát)"] = "TIFF (professional archive format)",
             ["Ovládání nahrávání"] = "Recording control",
             ["Cílová aplikace"] = "Target application",
             ["Zvolené okno:"] = "Selected window:",
@@ -72,6 +75,8 @@ public partial class MainWindow : Window
             ["Poloměr kruhu:"] = "Circle radius:",
             ["▶  Spustit nahrávání"] = "▶  Start recording",
             ["⏹  Zastavit a exportovat"] = "⏹  Stop and export",
+            ["⏸  Přerušit"] = "⏸  Pause",
+            ["▶  Pokračovat"] = "▶  Resume",
             ["⬇  Minimalizovat do tray"] = "⬇  Minimize to tray",
             ["Zaznamenané kroky"] = "Recorded steps",
             ["🗑 Smazat krok"] = "🗑 Delete step",
@@ -231,6 +236,9 @@ public partial class MainWindow : Window
         {
             ImageSaveQuality.JPEG85 => 1,
             ImageSaveQuality.JPEG70 => 2,
+            ImageSaveQuality.BMP    => 3,
+            ImageSaveQuality.GIF    => 4,
+            ImageSaveQuality.TIFF   => 5,
             _                       => 0
         };
 
@@ -310,6 +318,9 @@ public partial class MainWindow : Window
         {
             1 => ImageSaveQuality.JPEG85,
             2 => ImageSaveQuality.JPEG70,
+            3 => ImageSaveQuality.BMP,
+            4 => ImageSaveQuality.GIF,
+            5 => ImageSaveQuality.TIFF,
             _ => ImageSaveQuality.PNG
         };
 
@@ -467,16 +478,45 @@ public partial class MainWindow : Window
         Export_Click(this, new RoutedEventArgs());
     }
 
+    private void PauseResumeRecording_Click(object sender, RoutedEventArgs e)
+    {
+        if (_recorder == null)
+            return;
+
+        if (_recorder.IsPaused)
+        {
+            _recorder.ResumeRecording();
+            StatusText.Text = IsEnglishUi ? "Recording resumed." : "Nahrávání pokračuje.";
+        }
+        else
+        {
+            _recorder.PauseRecording();
+            StatusText.Text = IsEnglishUi ? "Recording paused." : "Nahrávání přerušeno.";
+        }
+
+        UpdatePauseResumeUi();
+    }
+
     // ── UI state helpers ──────────────────────────────────────────────────
 
     private void SetRecordingUiState(bool recording)
     {
         StartBtn          .IsEnabled  = !recording;
         StopBtn           .IsEnabled  = recording;
+        PauseResumeBtn    .IsEnabled  = recording;
         MinimizeToTrayBtn .Visibility = recording ? Visibility.Visible : Visibility.Collapsed;
         RecordingBadge    .Visibility = recording ? Visibility.Visible : Visibility.Collapsed;
         ExportBtn         .IsEnabled  = !recording && (_session?.StepCount ?? 0) > 0;
+        UpdatePauseResumeUi();
         UpdateHotkeyHint();
+    }
+
+    private void UpdatePauseResumeUi()
+    {
+        bool paused = _recorder?.IsPaused == true;
+        PauseResumeBtn.Content = paused
+            ? (IsEnglishUi ? "▶  Resume" : "▶  Pokračovat")
+            : (IsEnglishUi ? "⏸  Pause" : "⏸  Přerušit");
     }
 
     private void UpdateHotkeyHint()
@@ -546,10 +586,12 @@ public partial class MainWindow : Window
         {
             try
             {
+                using var imageStream = new FileStream(step.ImagePath!, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 var bmi = new BitmapImage();
                 bmi.BeginInit();
-                bmi.UriSource     = new Uri(step.ImagePath!, UriKind.Absolute);
+                bmi.StreamSource  = imageStream;
                 bmi.CacheOption   = BitmapCacheOption.OnLoad;
+                bmi.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
                 bmi.DecodePixelWidth = 860;
                 bmi.EndInit();
                 bmi.Freeze();

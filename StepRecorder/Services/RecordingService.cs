@@ -19,6 +19,7 @@ public sealed class RecordingService : IDisposable
     private RecordingSession? _session;
     private IntPtr            _targetHwnd;
     private bool              _running;
+    private bool              _paused;
     private long              _lastMouseClickTicks;
     private int               _lastMouseClickX;
     private int               _lastMouseClickY;
@@ -52,6 +53,7 @@ public sealed class RecordingService : IDisposable
         _session    = session;
         _targetHwnd = targetHwnd;
         _running    = true;
+        _paused     = false;
         _lastMouseClickTicks = 0;
 
         Directory.CreateDirectory(session.ImagesFolder);
@@ -65,12 +67,19 @@ public sealed class RecordingService : IDisposable
         _hooks.Stop();
         _session?.Finish();
         _running = false;
+        _paused = false;
     }
+
+    public void PauseRecording() => _paused = true;
+
+    public void ResumeRecording() => _paused = false;
+
+    public bool IsPaused => _paused;
 
     // Called by MainWindow via WndProc on Ctrl+Shift+F
     public void TriggerFullCapture()
     {
-        if (!_running) return;
+        if (!_running || _paused) return;
         NativeMethods.GetCursorPos(out var pt);
         ScheduleCapture(pt.X, pt.Y, CaptureSource.HotkeyFull);
     }
@@ -78,7 +87,7 @@ public sealed class RecordingService : IDisposable
     // Called by MainWindow via WndProc on Ctrl+Shift+C
     public void TriggerCropCapture()
     {
-        if (!_running) return;
+        if (!_running || _paused) return;
         NativeMethods.GetCursorPos(out var pt);
         ScheduleCapture(pt.X, pt.Y, CaptureSource.HotkeyCrop);
     }
@@ -87,7 +96,7 @@ public sealed class RecordingService : IDisposable
 
     private void OnLeftButtonDown(int x, int y)
     {
-        if (!_running || !_cfg.CaptureOnMouseClick) return;
+        if (!_running || _paused || !_cfg.CaptureOnMouseClick) return;
 
         var foreground = NativeMethods.GetForegroundWindow();
         if (foreground != IntPtr.Zero)
